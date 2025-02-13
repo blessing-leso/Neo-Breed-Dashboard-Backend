@@ -6,7 +6,7 @@ export const registerEmployee = async(req,res) => {
    const newEmployee = new Employee({
        fullname:  Fullname,
        email: Email,
-       password: await bcrypt.hash(Password, 10),
+       password: await bcrypt.hash(Password, 10), // still need to install bcypt
        phone: Phone, 
        address: Address, 
        jobTitle: JobTitle,
