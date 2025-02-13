@@ -1,4 +1,5 @@
 import Employee from '../models/employeeModel.js'
+import bcrypt from 'bcrypt'
 
 export const registerEmployee = async(req,res) => {
     const {Fullname, Email, Password, Phone, Address, JobTitle, Salary} = req.body
@@ -6,7 +7,7 @@ export const registerEmployee = async(req,res) => {
    const newEmployee = new Employee({
        fullname:  Fullname,
        email: Email,
-       password: await bcrypt.hash(Password, 10), // still need to install bcypt
+       password: await bcrypt.hash(Password, 10),
        phone: Phone, 
        address: Address, 
        jobTitle: JobTitle,
