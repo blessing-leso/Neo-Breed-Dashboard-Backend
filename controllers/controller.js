@@ -1,4 +1,4 @@
-import Employee from '../models/employeeModel.js'
+import {Employee} from '../models/Employees.js'
 import bcrypt from 'bcrypt'
 
 export const registerEmployee = async(req,res) => {
@@ -25,3 +25,4 @@ export const registerEmployee = async(req,res) => {
         res.json({error: error.message})
     }
 }
+

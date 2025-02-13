@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-const { Schema, Model} = mongoose
+const { Schema, model} = mongoose
 
 const employeeSchema = new Schema({
     fullname: { type: String, required: true },
@@ -15,4 +15,4 @@ const employeeSchema = new Schema({
 
 }, { timestamps: true })
 
-module.exports = Model('Employee', employeeSchema)
+export const Employee = model('Employee', employeeSchema)
