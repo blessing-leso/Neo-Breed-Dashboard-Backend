@@ -59,3 +59,14 @@ export const updateEmployee = async (req, res) => {
     res.json({ error: error.message });
   }
 };
+
+export const getAllEmployees = async (req, res, next) => {
+  const employees = await Employee.find();
+  res.status(200).json({
+    status: "success",
+    results: employees.length,
+    data: {
+      employees,
+    },
+  });
+};
