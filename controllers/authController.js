@@ -82,9 +82,9 @@ export const logout = (req,res) => {
     res.status(200).json({message: 'User logged out, refresh token is still active'})
 }
 
-export const authorizeRols = (...roles) => {
+export const authorizeRoles = (role) => {
     return (req,res,next) => {
-        if(!roles.includes(req.user.role))
+        if(role !== req.user.role)
         {
             return res.status(403).json({error: 'You are not authorized to access this route'})
         }
