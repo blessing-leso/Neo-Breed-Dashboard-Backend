@@ -70,3 +70,12 @@ export const getAllEmployees = async (req, res, next) => {
     },
   });
 };
+
+exports.deleteEmployee = catchAsync(async (req, res, next) => {
+  await Employee.findByIdAndUpdate(req.newEmployee.id, { active: false });
+
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});
