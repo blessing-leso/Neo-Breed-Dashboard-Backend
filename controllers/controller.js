@@ -25,4 +25,3 @@ export const registerEmployee = async(req,res) => {
         res.json({error: error.message})
     }
 }
-
