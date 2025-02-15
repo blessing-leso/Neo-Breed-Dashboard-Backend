@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-const { Schema, Model} = mongoose
+const { Schema, model} = mongoose
 
 const clientSchema = new Schema({
     fullname: { type: String, required: true },
@@ -11,4 +11,4 @@ const clientSchema = new Schema({
     assignedTo:{type: Schema.Types.ObjectId, ref: 'Employee'}, //reference to employee
 }, { timestamps: true })
 
-module.exports = Model('Client', clientSchema)
+export const Client = model('Client', clientSchema)

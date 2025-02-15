@@ -65,10 +65,10 @@ export const authenticateToken = (req,res,next) =>
                             next()
                         } catch (refreshtoken) { return res.status(403).json({ message: "Invalid refresh token" }).clearCookie('accessToken') }
                     }
-                    else{ return res.status(401).json({ message: "Unauthorized: Token expired" });}        
+                    else{ return res.status(401).json({ message: "Unauthorized access" });}        
                 }
     } 
-    else{ return res.status(401).json({ message: "Unauthorized: Token expired" }); }
+    else{ return res.status(401).json({ message: "Unauthorized access" }); }
 }
 
 export const logout = (req,res) => {
