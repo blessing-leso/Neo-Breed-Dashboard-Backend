@@ -9,7 +9,7 @@ const employeeSchema = new Schema({
     address: { type: String,required: true},
     jobTitle: {type: String, required: true},
     role:{type: String, enum: ['admin', 'employee'], default: 'employee'}, //use this for role based access
-    salary: { type: Number, required: true},
+    salary: { type: Number},
     leads:[{type: Schema.Types.ObjectId, ref: 'Lead'}], //reference to leads
     clients:[{type: Schema.Types.ObjectId, ref: 'Client'}] //reference to clients
 
