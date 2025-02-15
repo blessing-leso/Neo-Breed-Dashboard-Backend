@@ -1,5 +1,6 @@
 import {Employee} from '../models/Employees.js'
 import {Lead} from '../models/Leads.js'
+import {Client} from '../models/Clients.js'
 import bcrypt from 'bcrypt'
 
 export const registerEmployee = async(req,res) => {
@@ -66,6 +67,26 @@ export const getEmployees = async(req,res) => {
     try {
         const employees = await Employee.find()
         res.status(200).json(employees)
+
+    } catch (error) {
+        res.json({error: error.message})
+    }
+}
+
+export const getLeads = async(req,res) => {
+    try {
+        const leads = await Lead.find()
+        res.status(200).json(leads)
+
+    } catch (error) {
+        res.json({error: error.message})
+    }
+}
+
+export const getClients = async(req,res) => {
+    try {
+        const clients = await Client.find()
+        res.status(200).json(clients)
 
     } catch (error) {
         res.json({error: error.message})
