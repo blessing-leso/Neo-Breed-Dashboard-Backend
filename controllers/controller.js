@@ -61,3 +61,13 @@ export const registerClient = async(req,res) => {
         res.json({error: error.message})
     }
 }
+
+export const getEmployees = async(req,res) => {
+    try {
+        const employees = await Employee.find()
+        res.status(200).json(employees)
+
+    } catch (error) {
+        res.json({error: error.message})
+    }
+}
