@@ -61,21 +61,6 @@ export const updateEmployee = async (req, res) => {
     res.json({ error: error.message });
   }
 };
-/** ApI to get all users/employeees of Neo Breed*/
-export const getAllEmployees = async (req, res, next) => {
-  try {
-    const employees = await Employee.find();
-    res.status(200).json({
-      status: "success",
-      results: employees.length,
-      data: {
-        employees,
-      },
-    });
-  } catch (error) {
-    res.json({ error: error.message });
-  }
-};
 
 /**  ApI to delete  the user/employeee from database */
 export const deleteEmployee = async (req, res, next) => {

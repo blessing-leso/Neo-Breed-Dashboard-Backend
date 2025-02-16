@@ -3,7 +3,6 @@ const router = Router();
 import {
   deleteEmployee,
   getAllEmployees,
-  getEmployee,
   getMe,
   registerEmployee,
   updateEmployee,
@@ -19,7 +18,7 @@ router.get("/auth/login", login);
 router.post("/forgotpassword", forgotPassword);
 router.get("/getAllEmployees", authenticateToken, getAllEmployees);
 
-router.get("/getEmployee/:id", authenticateToken, getEmployee);
+
 router.patch("/updateEmployee/:id", authenticateToken, updateEmployee);
 router.delete("/deleteEmployee/:id", authenticateToken, deleteEmployee);
 router.get("getMe", authenticateToken, getMe);
