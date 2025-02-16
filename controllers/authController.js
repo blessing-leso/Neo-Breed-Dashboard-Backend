@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import AppError from "../utils/AppError.js";
 import sendEmail from "../utils/email.js";
+import { CatchAsync } from "../utils/CatchAsync.js";
+import crypto from "crypto";
 
 export const login = async (req, res) => {
   const { Email, Password } = req.body;
@@ -163,3 +165,28 @@ export const forgotPassword = async (req, res, next) => {
     );
   }
 };
+
+export const resetPassword = CatchAsync(async (req, res, next) => {
+  //1) Get user based on the token
+
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const employee = await Employee.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!employee) {
+    return next(new AppError("Token is invalid or has expires"));
+  }
+
+  //2) If token has not expired, and there is employee, set the new password
+  employee.password = req.body.Password;
+  employee.passwordResetToken = undefined;
+  employee.passwordResetExpires = undefined;
+
+  await employee.save();
+});
