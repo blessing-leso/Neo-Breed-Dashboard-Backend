@@ -37,6 +37,7 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+/** ApI to update the users/employeee details */
 export const updateEmployee = async (req, res) => {
   const filterBody = filterObj(
     req.body,
@@ -60,7 +61,7 @@ export const updateEmployee = async (req, res) => {
     res.json({ error: error.message });
   }
 };
-
+/** ApI to get all users/employeees of Neo Breed*/
 export const getAllEmployees = async (req, res, next) => {
   try {
     const employees = await Employee.find();
@@ -76,6 +77,7 @@ export const getAllEmployees = async (req, res, next) => {
   }
 };
 
+/**  ApI to delete  the user/employeee from database */
 export const deleteEmployee = async (req, res, next) => {
   try {
     await Employee.findByIdAndDelete(req.params.id, { active: false });
