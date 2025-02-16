@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { Employee } from "../models/Employees.js";
 import bcrypt from "bcrypt";
 import "dotenv/config";
+import AppError from "../utils/AppError.js";
 
 export const login = async (req, res) => {
   const { Email, Password } = req.body;
@@ -113,4 +114,30 @@ export const authorizeRols = (...roles) => {
     }
     next();
   };
+};
+
+export const forgotPassword = async (req, res, next) => {
+
+    
+    //Getting User based on posted email
+
+    const employee = await Employee.findOne({ email: req.body.Email });
+
+  if (!employee) {
+    return next(new AppError("User Does not exist", 404));
+} 
+
+
+// Generating random reset token
+
+    const resetToken = employee.createPasswordResetToken();
+
+    await employee.save({
+        validateBeforeSave:false;
+    })
+ 
+    //(3) Send  Token to Via Email 
+
+    const resetURL =  `${req.protocol}://${process.env.IP_ADDRESS}`
+
 };
