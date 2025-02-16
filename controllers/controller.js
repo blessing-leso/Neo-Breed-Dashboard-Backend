@@ -61,21 +61,29 @@ export const updateEmployee = async (req, res) => {
 };
 
 export const getAllEmployees = async (req, res, next) => {
-  const employees = await Employee.find();
-  res.status(200).json({
-    status: "success",
-    results: employees.length,
-    data: {
-      employees,
-    },
-  });
+  try {
+    const employees = await Employee.find();
+    res.status(200).json({
+      status: "success",
+      results: employees.length,
+      data: {
+        employees,
+      },
+    });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
 };
 
-exports.deleteEmployee = catchAsync(async (req, res, next) => {
-  await Employee.findByIdAndUpdate(req.newEmployee.id, { active: false });
+export const deleteEmployee = async (req, res, next) => {
+  try {
+    await Employee.findByIdAndUpdate(req.newEmployee.id, { active: false });
 
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
-});
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+};
