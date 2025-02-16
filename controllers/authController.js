@@ -3,6 +3,7 @@ import { Employee } from "../models/Employees.js";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 import AppError from "../utils/AppError.js";
+import sendEmail from "../utils/email.js";
 
 export const login = async (req, res) => {
   const { Email, Password } = req.body;
@@ -117,27 +118,48 @@ export const authorizeRols = (...roles) => {
 };
 
 export const forgotPassword = async (req, res, next) => {
+  //Getting User based on posted email
 
-    
-    //Getting User based on posted email
-
-    const employee = await Employee.findOne({ email: req.body.Email });
+  const employee = await Employee.findOne({ email: req.body.Email });
 
   if (!employee) {
     return next(new AppError("User Does not exist", 404));
-} 
+  }
 
+  // Generating random reset token
 
-// Generating random reset token
+  const resetToken = employee.createPasswordResetToken();
 
-    const resetToken = employee.createPasswordResetToken();
+  await employee.save({
+    validateBeforeSave: false,
+  });
 
-    await employee.save({
-        validateBeforeSave:false;
-    })
- 
-    //(3) Send  Token to Via Email 
+  //(3) Send  Token to Via Email
 
-    const resetURL =  `${req.protocol}://${process.env.IP_ADDRESS}`
+  const resetURL = `${req.protocol}://${process.env.IP_ADDRESS}:${process.env.PORT}/api/v1/employees/forgotpassword/${resetToken}`;
 
+  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+
+  try {
+    await sendEmail({
+      email: employee.email,
+      subject: "Your password reset token (valid for 10 min)",
+      message,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Token sent to email",
+    });
+  } catch (error) {
+    employee.passwordResetToken = undefined;
+    employee.passwordResetExpires = undefined;
+
+    await employee.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError("There was an error sending the email. Try again later"),
+      500
+    );
+  }
 };
