@@ -2,7 +2,6 @@ import { Router } from "express";
 const router = Router();
 import {
   deleteEmployee,
-  getAllEmployees,
   getMe,
   registerEmployee,
   updateEmployee,
@@ -11,15 +10,15 @@ import {
   authenticateToken,
   forgotPassword,
   login,
+  resetPassword,
 } from "../controllers/authController.js";
 
 router.post("/register", registerEmployee);
 router.get("/auth/login", login);
 router.post("/forgotpassword", forgotPassword);
-router.get("/getAllEmployees", authenticateToken, getAllEmployees);
-
 
 router.patch("/updateEmployee/:id", authenticateToken, updateEmployee);
+router.patch("/resetPassword/:token", resetPassword);
 router.delete("/deleteEmployee/:id", authenticateToken, deleteEmployee);
 router.get("getMe", authenticateToken, getMe);
 
