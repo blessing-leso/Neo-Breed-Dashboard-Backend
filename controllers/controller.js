@@ -1,6 +1,6 @@
 import { Employee } from "../models/Employees.js";
 import bcrypt from "bcrypt";
-import CatchAsync from "../utils/CatchAsync.js";
+import { CatchAsync } from "../utils/CatchAsync.js";
 
 export const registerEmployee = async (req, res) => {
   const { Fullname, Email, Password, Phone, Address, JobTitle, Salary } =
@@ -78,7 +78,7 @@ export const getAllEmployees = async (req, res, next) => {
 
 export const deleteEmployee = async (req, res, next) => {
   try {
-    await Employee.findByIdAndDelete(req.newEmployee.id, { active: false });
+    await Employee.findByIdAndDelete(req.params.id, { active: false });
 
     res.status(204).json({
       status: "success",
