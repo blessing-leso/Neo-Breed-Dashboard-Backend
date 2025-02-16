@@ -1,5 +1,6 @@
 import { Employee } from "../models/Employees.js";
 import bcrypt from "bcrypt";
+import CatchAsync from "../utils/CatchAsync.js";
 
 export const registerEmployee = async (req, res) => {
   const { Fullname, Email, Password, Phone, Address, JobTitle, Salary } =
@@ -77,7 +78,7 @@ export const getAllEmployees = async (req, res, next) => {
 
 export const deleteEmployee = async (req, res, next) => {
   try {
-    await Employee.findByIdAndUpdate(req.newEmployee.id, { active: false });
+    await Employee.findByIdAndDelete(req.newEmployee.id, { active: false });
 
     res.status(204).json({
       status: "success",
@@ -87,3 +88,16 @@ export const deleteEmployee = async (req, res, next) => {
     res.json({ error: error.message });
   }
 };
+
+export const getAllEmployee = CatchAsync(async (req, res, next) => {
+  const employee = await Employee.findById(req.params.id);
+  if (!employee) {
+    return next(res.status(404).json({ error: "Employee not found" }));
+  }
+
+  res.status(200).json({
+    data: {
+      employee,
+    },
+  });
+});
