@@ -8,6 +8,7 @@ const employeeSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     phone: { type: String, required: true },
+<<<<<<< HEAD
     address: { type: String, required: true },
     jobTitle: { type: String },
     passwordResetToken: String,
@@ -19,6 +20,14 @@ const employeeSchema = new Schema(
   },
   { timestamps: true }
 );
+=======
+    address: { type: String,required: true},
+    jobTitle: {type: String, required: true},
+    role:{type: String, enum: ['admin', 'employee'], default: 'employee'}, //use this for role based access
+    salary: { type: Number},
+    leads:[{type: Schema.Types.ObjectId, ref: 'Lead'}], //reference to leads
+    clients:[{type: Schema.Types.ObjectId, ref: 'Client'}] //reference to clients
+>>>>>>> b1ea6234fb9a9facd60f03859ef07505199fe45c
 
 employeeSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex");
