@@ -89,7 +89,7 @@ export const deleteEmployee = async (req, res, next) => {
   }
 };
 
-export const getAllEmployee = CatchAsync(async (req, res, next) => {
+export const getEmployee = CatchAsync(async (req, res, next) => {
   const employee = await Employee.findById(req.params.id);
   if (!employee) {
     return next(res.status(404).json({ error: "Employee not found" }));
@@ -101,3 +101,15 @@ export const getAllEmployee = CatchAsync(async (req, res, next) => {
     },
   });
 });
+
+export const getMe = (req, res, next) => {
+  if (!req.employee.id) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.json({
+    data: {
+      employee: req.employee,
+    },
+  });
+};
