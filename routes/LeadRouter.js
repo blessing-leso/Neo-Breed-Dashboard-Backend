@@ -7,3 +7,5 @@ import {
 import {registerLead, getLeads} from '../controllers/leadController.js'
 router.get('/auth/leads', authenticateToken, getLeads)
 router.post('/register/lead', authenticateToken,registerLead)
+
+export default router

@@ -30,9 +30,7 @@ export const login = async (req, res) => {
 
     const authorizationHeader = `Bearer ${refreshToken}`;
     res.setHeader("Authorization", authorizationHeader);
-    res
-      .status(200)
-      .json({ accessToken: accessToken, refreshToken: refreshToken });
+    res.status(200).json({user });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -66,14 +64,14 @@ export const authenticateToken = (req, res, next) => {
           req.user = userRefreshToken;
           next();
         } catch (error) {
-          return res.status(403).json({ message: "Invalid refresh token" }).clearCookie("accessToken");
+          return res.status(403).json({ message: "Invalid refresh token login" }).clearCookie("accessToken");
         }
       } else {
-        return res.status(401).json({ message: "Unauthorized: Token expired" });
+        return res.status(401).json({ message: "Unauthorized: Token expired login" });
       }
     }
   } else {
-    return res.status(401).json({ message: "Unauthorized: Token expired" });
+    return res.status(401).json({ message: "Unauthorized access login" });
   }
 };
 

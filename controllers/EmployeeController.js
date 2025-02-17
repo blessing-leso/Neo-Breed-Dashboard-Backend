@@ -30,7 +30,7 @@ export const registerEmployee = async(req,res) => {
 
 export const getAllEmployees = async(req,res) => {
     try {
-        const employees = await Employee.find()
+        const employees = await Employee.find().populate()
         res.status(200).json(employees)
 
     } catch (error) {
@@ -187,4 +187,13 @@ export const getMe = (req, res, next) => {
     },
   });
 };
-  
+ 
+
+// Function to get Employees along with clients and leads they are working with
+export const getEmployeeWithDetails = async (req, res) => {
+  const employee = await Employee.findOne({fullname: req.body.Fullname})
+  .populate("clients") // Get client details
+  .populate("leads") // Get lead details
+  .select('-password'); 
+  res.json(employee);
+}

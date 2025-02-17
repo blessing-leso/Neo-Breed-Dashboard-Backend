@@ -31,6 +31,20 @@ export const getClients = async(req,res) => {
     }
 }
 
+ export const getClient = async(req,res) => {
+    const {Fullname} = req.body
+    try {
+        const client = await Client.findOne({fullname: Fullname})
+        .populate('assignedTo', 'fullname email -_id')
+        .exec()
+        if(!client) return res.status(404).json({message: 'Client not found'})
+        res.status(200).json(client)
+
+    } catch (error) {
+        res.json({error: error.message})
+
+    }
+}
 export const assignClient = async(req,res) => {
     const {clientFullname, employeeFullname} = req.body
     try {
@@ -42,7 +56,7 @@ export const assignClient = async(req,res) => {
         employee.clients.push(client._id)
         await client.save()
         await employee.save()
-        res.status(200).json(`Client ${clientFullname} has been assigned to ${employeeFullname}`)
+        res.status(200).json(`Client ${clientFullname} has been assigned to ${employeeFullname} `)
 }
     catch (error) {
         res.json({error: error.message})
