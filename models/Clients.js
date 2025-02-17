@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 const { Schema, model} = mongoose
 
 const clientSchema = new Schema({
-    fullname: { type: String, required: true },
+    fullname: { type: String, required: true, unique: true },
     email: { type: String,required: true, unique: true },
     phone: { type: String, required: true },
     company: { type: String,required: true},
