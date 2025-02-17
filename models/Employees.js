@@ -31,6 +31,6 @@ employeeSchema.methods.createPasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
-};
+}
 
-export const Employee = model("Employee", employeeSchema);
+export const Employee = model("Employee", employeeSchema)
