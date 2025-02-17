@@ -1,11 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import {
-    authenticateToken,
-    registerClient,
-    getClients,
-    authorizeRoles 
-  } from "../controllers/authController.js";
+import {authenticateToken} from "../controllers/authController.js";
+import {registerClient, getClients} from '../controllers/clientController.js'
 
-  router.get('/auth/clients', authenticateToken, getClients)
-  router.post('/register/client', authenticateToken,registerClient)
+router.get('/auth/clients', authenticateToken, getClients)
+router.post('/register/client', authenticateToken,registerClient)

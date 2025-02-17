@@ -5,7 +5,7 @@ import {
   getMe,
   registerEmployee,
   updateEmployee,
-} from "../controllers/controller.js";
+} from "../controllers/EmployeeController.js";
 import {
   authenticateToken,
   forgotPassword,
@@ -13,8 +13,7 @@ import {
   resetPassword,
   getAllEmployees,
   authorizeRoles,
-  
-} from "../controllers/authController.js";
+  } from "../controllers/authController.js";
 
 router.post("/register", registerEmployee);
 router.get("/auth/login", login);
