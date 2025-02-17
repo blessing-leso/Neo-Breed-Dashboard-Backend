@@ -78,11 +78,7 @@ export const authenticateToken = (req, res, next) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("accessToken", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "Strict",
-  });
+   res.clearCookie("accessToken", { httpOnly: true, secure: true,sameSite: "Strict"});
 
   const authHeader = req.headers["authorization"];
   const refreshToken = authHeader && authHeader.split(" ")[1];
@@ -90,17 +86,13 @@ export const logout = (req, res) => {
   if (!refreshToken)
     return res.status(200).json({ message: "User logged out successfully" });
 
-  res
-    .status(200)
-    .json({ message: "User logged out, refresh token is still active" });
+  res.status(200).json({ message: "User logged out, refresh token is still active" });
 };
 
 export const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res
-        .status(403)
-        .json({ error: "You are not authorized to access this route" });
+      return res.status(403).json({ error: "You are not authorized to access this route" });
     }
     next();
   };

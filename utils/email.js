@@ -1,27 +1,27 @@
-import nodemailer from "nodemailer";
+// import nodemailer from "nodemailer";
 
-const sendEmail = async (options) => {
-  //(1) create Transporter
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
+// const sendEmail = async (options) => {
+//   //(1) create Transporter
+//   const transporter = nodemailer.createTransport({
+//     host: process.env.EMAIL_HOST,
+//     port: process.env.EMAIL_PORT,
+//     auth: {
+//       user: process.env.EMAIL_USERNAME,
+//       pass: process.env.EMAIL_PASSWORD,
+//     },
+//   });
 
-  //(2) Define the email Options
-  const mailOptions = {
-    from: "Fhatuwani Mulaudzi <mulaudzifhatuwanib20@gmail.com",
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-  };
+//   //(2) Define the email Options
+//   const mailOptions = {
+//     from: "Fhatuwani Mulaudzi <mulaudzifhatuwanib20@gmail.com",
+//     to: options.email,
+//     subject: options.subject,
+//     text: options.message,
+//   };
 
-  //Actually send the email
+//   //Actually send the email
 
-  await transporter.sendMail(mailOptions);
-};
+//   await transporter.sendMail(mailOptions);
+// };
 
-export default sendEmail;
+// export default sendEmail;
