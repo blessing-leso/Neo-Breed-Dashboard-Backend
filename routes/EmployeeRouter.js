@@ -5,14 +5,15 @@ import {
   getMe,
   registerEmployee,
   updateEmployee,
+  forgotPassword,
+  getAllEmployees,
+  resetPassword,
 } from "../controllers/EmployeeController.js";
 import {
   authenticateToken,
-  forgotPassword,
   login,
-  resetPassword,
-  getAllEmployees,
   authorizeRoles,
+  logout
   } from "../controllers/authController.js";
 
 router.post("/register", registerEmployee);
