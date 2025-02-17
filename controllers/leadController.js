@@ -1,30 +1,8 @@
-import {Lead} from '../models/Leads.js'
+import { getOne } from "./handleFactory";
+import Lead from "../models/leadModel";
 
-export const registerLead = async(req,res) => {
-    const {Fullname,Email,Phone, InterestedIn} = req.body
-
-    try {
-        const newLead = new Lead({
-            fullname: Fullname,
-            email: Email,
-            phone: Phone,
-            interestedIn: InterestedIn
-        })
-        await newLead.save()
-        res.status(201).json(newLead)
-        
-    } catch (error) {
-        res.json({error: error.message})
-    }
-}
-
-export const getLeads = async(req,res) => {
-    try {
-        const leads = await Lead.find()
-        res.status(200).json(leads)
-
-    } catch (error) {
-        res.json({error: error.message})
-    }
-}
-
+const createLead = getOne(Lead);
+const getLead = getOne(Lead);
+const getAllLeads = getAll(Lead);
+const updateLead = updateOne(Lead);
+const deleteLead = deleteOne(Lead);
