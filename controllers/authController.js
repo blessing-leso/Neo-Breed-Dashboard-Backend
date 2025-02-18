@@ -30,7 +30,7 @@ export const login = async (req, res) => {
 
     const authorizationHeader = `Bearer ${refreshToken}`;
     res.setHeader("Authorization", authorizationHeader);
-    res.status(200).json({user });
+    res.status(200).json({message: `successfully logged in`, user });
   } catch (error) {
     res.json({ error: error.message });
   }
