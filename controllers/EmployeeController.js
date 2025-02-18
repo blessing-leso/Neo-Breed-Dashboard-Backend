@@ -1,27 +1,14 @@
 import { Employee } from "../models/Employees.js";
 import bcrypt from "bcrypt";
 import AppError from "../utils/AppError.js";
-// import sendEmail from "../utils/email.js";
+import {Email} from "../utils/email.js"
 import { CatchAsync } from "../utils/CatchAsync.js";
 import crypto from "crypto";
 
-<<<<<<< HEAD
-export const registerEmployee = async (req, res) => {
-  const { Fullname, Email, Password, Phone, Address, JobTitle } = req.body;
-
-  const newEmployee = new Employee({
-    fullname: Fullname,
-    email: Email,
-    password: await bcrypt.hash(Password, 10),
-    phone: Phone,
-    address: Address,
-    jobTitle: JobTitle,
-    leads: [],
-    clients: [],
-=======
 export const registerEmployee = async(req,res) => {
     const {Fullname, Email, Password, Phone, Address, JobTitle} = req.body
-    
+  
+
    const newEmployee = new Employee({
        fullname:  Fullname,
        email: Email,
@@ -32,6 +19,10 @@ export const registerEmployee = async(req,res) => {
        leads: [],
        clients: [] 
     })
+      
+    const url = `${req.protocol}://${req.get('host')}/me`
+    await new Email(newEmployee, url).sendWelcome(); 
+
 
     try {
         await newEmployee.save()
@@ -125,7 +116,6 @@ export const forgotPassword = async (req, res, next) => {
     await employee.save();
   
     res.status(200).json({ message: "Password reset successful" });
->>>>>>> main
   });
 
   try {
