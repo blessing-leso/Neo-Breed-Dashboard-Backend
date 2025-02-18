@@ -17,7 +17,6 @@ server.use(cookieParser());
 server.use("/api", leadRoute);
 server.use("/api", employeeRouter);
 server.use("/api", clientRouter);
-
 //connect to database
 connectDB();
 
