@@ -6,7 +6,6 @@ import { CatchAsync } from "../utils/CatchAsync.js";
 import crypto from "crypto";
 
 export const registerEmployee = async(req,res) => {
-  console.log('made it in register route')
     const {Fullname, Email, Password, Phone, Address, JobTitle} = req.body
     
    const newEmployee = new Employee({
