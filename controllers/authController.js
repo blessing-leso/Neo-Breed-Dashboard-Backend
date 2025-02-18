@@ -3,7 +3,6 @@ import { Employee } from "../models/Employees.js";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 
-
 export const login = async (req, res) => {
   console.log(`login route`);
   const { Email, Password } = req.body;
@@ -31,53 +30,83 @@ export const login = async (req, res) => {
 
     const authorizationHeader = `Bearer ${refreshToken}`;
     res.setHeader("Authorization", authorizationHeader);
-    res.status(200).json({message: `successfully logged in`, user });
+    res.status(200).json({ message: `successfully logged in`, user });
   } catch (error) {
     res.json({ error: error.message });
   }
 };
 
-export const authenticateToken = (req, res, next) => {
+export const authenticateToken = async (req, res, next) => {
   const token = req.cookies.accessToken;
-  if (token) {
-    try {
-      const userToken = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = userToken;
-      return next();
-    } catch (error) {
-      res.clearCookie("accessToken");
 
-      const authHeader = req.headers["authorization"];
-      const refreshToken = authHeader && authHeader.split(" ")[1];
-
-      if (refreshToken) {
-        try {
-          const userRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH);
-          const newAccessToken = jwt.sign({ id: userRefreshToken.id }, process.env.JWT_SECRET, { expiresIn: "15m" });
-
-          res.cookie("accessToken", newAccessToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 15 * 60 * 1000,
-            sameSite: "Strict",
-          });
-
-          req.user = userRefreshToken;
-          next();
-        } catch (error) {
-          return res.status(403).json({ message: "Invalid refresh token login" }).clearCookie("accessToken");
-        }
-      } else {
-        return res.status(401).json({ message: "Unauthorized: Token expired login" });
-      }
-    }
-  } else {
+  if (!token) {
     return res.status(401).json({ message: "Unauthorized access login" });
   }
-};
 
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await Employee.findById(decoded.id).select("-password");
+
+    if (!user) {
+      return res.status(401).json({ message: "User no longer exists." });
+    }
+
+    req.user = user;
+    return next();
+  } catch (error) {
+    res.clearCookie("accessToken");
+
+    const authHeader = req.headers["authorization"];
+    const refreshToken = authHeader && authHeader.split(" ")[1];
+
+    if (refreshToken) {
+      try {
+        const userRefreshToken = jwt.verify(
+          refreshToken,
+          process.env.JWT_REFRESH
+        );
+        const newAccessToken = jwt.sign(
+          { id: userRefreshToken.id },
+          process.env.JWT_SECRET,
+          { expiresIn: "15m" }
+        );
+
+        res.cookie("accessToken", newAccessToken, {
+          httpOnly: true,
+          secure: true,
+          maxAge: 15 * 60 * 1000,
+          sameSite: "Strict",
+        });
+
+        // Fetch user again using refresh token
+        const user = await Employee.findById(userRefreshToken.id).select(
+          "-password"
+        );
+        if (!user) {
+          return res.status(401).json({ message: "User no longer exists." });
+        }
+
+        req.user = user;
+        return next();
+      } catch (error) {
+        return res
+          .status(403)
+          .json({ message: "Invalid refresh token, please login" });
+      }
+    } else {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: Token expired, please login" });
+    }
+  }
+};
 export const logout = (req, res) => {
-   res.clearCookie("accessToken", { httpOnly: true, secure: true,sameSite: "Strict"});
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+  });
 
   const authHeader = req.headers["authorization"];
   const refreshToken = authHeader && authHeader.split(" ")[1];
@@ -85,13 +114,17 @@ export const logout = (req, res) => {
   if (!refreshToken)
     return res.status(200).json({ message: "User logged out successfully" });
 
-  res.status(200).json({ message: "User logged out, refresh token is still active" });
+  res
+    .status(200)
+    .json({ message: "User logged out, refresh token is still active" });
 };
 
 export const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ error: "You are not authorized to access this route" });
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to access this route" });
     }
     next();
   };
