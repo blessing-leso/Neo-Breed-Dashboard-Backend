@@ -3,22 +3,30 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
 import { connectDB } from "./config/db.js";
+<<<<<<< HEAD
 import router from "./routes/EmployeeRouter.js";
 import { router as leadRoute } from "./routes/LeadRouter.js";
+=======
+
+>>>>>>> 5ad8ad4407a9ce5bda9151a704e666bad602efb0
 import employeeRouter from "./routes/EmployeeRouter.js";
+import leadRoute from "./routes/LeadRouter.js";
 import clientRouter from "./routes/Clientsrouter.js";
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5ad8ad4407a9ce5bda9151a704e666bad602efb0
 const server = express();
 
 //middlewares
 server.use(cors());
 server.use(json());
 server.use(cookieParser());
-server.use("/api", router);
 server.use("/api", leadRoute);
-
 server.use("/api", employeeRouter);
 server.use("/api", clientRouter);
+
 //connect to database
 connectDB();
 
