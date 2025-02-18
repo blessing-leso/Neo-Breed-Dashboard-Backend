@@ -30,9 +30,7 @@ export const login = async (req, res) => {
 
     const authorizationHeader = `Bearer ${refreshToken}`;
     res.setHeader("Authorization", authorizationHeader);
-    res
-      .status(200)
-      .json({ accessToken: accessToken, refreshToken: refreshToken });
+    res.status(200).json({message: `successfully logged in`, user });
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -66,23 +64,19 @@ export const authenticateToken = (req, res, next) => {
           req.user = userRefreshToken;
           next();
         } catch (error) {
-          return res.status(403).json({ message: "Invalid refresh token" }).clearCookie("accessToken");
+          return res.status(403).json({ message: "Invalid refresh token login" }).clearCookie("accessToken");
         }
       } else {
-        return res.status(401).json({ message: "Unauthorized: Token expired" });
+        return res.status(401).json({ message: "Unauthorized: Token expired login" });
       }
     }
   } else {
-    return res.status(401).json({ message: "Unauthorized: Token expired" });
+    return res.status(401).json({ message: "Unauthorized access login" });
   }
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("accessToken", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "Strict",
-  });
+   res.clearCookie("accessToken", { httpOnly: true, secure: true,sameSite: "Strict"});
 
   const authHeader = req.headers["authorization"];
   const refreshToken = authHeader && authHeader.split(" ")[1];
@@ -90,17 +84,13 @@ export const logout = (req, res) => {
   if (!refreshToken)
     return res.status(200).json({ message: "User logged out successfully" });
 
-  res
-    .status(200)
-    .json({ message: "User logged out, refresh token is still active" });
+  res.status(200).json({ message: "User logged out, refresh token is still active" });
 };
 
 export const authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res
-        .status(403)
-        .json({ error: "You are not authorized to access this route" });
+      return res.status(403).json({ error: "You are not authorized to access this route" });
     }
     next();
   };

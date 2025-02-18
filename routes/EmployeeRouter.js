@@ -8,6 +8,7 @@ import {
   forgotPassword,
   getAllEmployees,
   resetPassword,
+  getEmployeeWithDetails
 } from "../controllers/EmployeeController.js";
 import {
   authenticateToken,
@@ -20,7 +21,9 @@ router.post("/register", registerEmployee);
 router.get("/auth/login", login);
 router.post("/forgotpassword", forgotPassword);
 
-router.get('/auth/employees', authenticateToken, authorizeRoles('admin'), getAllEmployees)
+router.get('/auth/employees', authenticateToken, getAllEmployees)
+router.get('/auth/employees-details/', authenticateToken, getEmployeeWithDetails)
+router.get('/auth/logout', logout)
 
 router.patch("/updateEmployee/:id", authenticateToken, updateEmployee);
 router.patch("/resetPassword/:token", resetPassword);
