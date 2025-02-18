@@ -5,7 +5,7 @@ import "dotenv/config";
 import { connectDB } from "./config/db.js";
 import { router as leadRoute } from "./routes/LeadRouter.js";
 import employeeRouter from "./routes/EmployeeRouter.js";
-import leadRoute from "./routes/LeadRouter.js";
+
 import clientRouter from "./routes/Clientsrouter.js";
 const server = express();
 
