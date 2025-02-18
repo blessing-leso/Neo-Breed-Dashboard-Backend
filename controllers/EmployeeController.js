@@ -51,7 +51,7 @@ export const forgotPassword = async (req, res, next) => {
     // Generating random reset token
   
     const resetToken = employee.createPasswordResetToken();
-  
+
     await employee.save({
       validateBeforeSave: false,
     });
@@ -104,7 +104,7 @@ export const forgotPassword = async (req, res, next) => {
     }
   
     //2) If token has not expired, and there is employee, set the new password
-    employee.password = req.body.Password;
+    employee.password = await bcrypt.hash(req.body.Password, 10);
     employee.passwordResetToken = undefined;
     employee.passwordResetExpires = undefined;
   
