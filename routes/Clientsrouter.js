@@ -1,11 +1,20 @@
 import { Router } from "express";
 const router = Router();
-import {authenticateToken} from "../controllers/authController.js";
-import {registerClient, getClients, assignClient, getClient} from '../controllers/clientController.js'
+import {authenticateToken, authorizeRoles} from "../controllers/authController.js";
+import {registerClient, getClients, assignClient, getClient, unassignClient, deleteClient} from '../controllers/clientController.js'
 
-router.get('/auth/get-clients', authenticateToken, getClients)
-router.post('/register/client', authenticateToken,registerClient)
-router.post('/client/assign-client', authenticateToken, assignClient)
+// GET requests
+router.get('/client/get-clients', authenticateToken, getClients)
 router.get('/client/get-client', authenticateToken, getClient)
+
+// POST requests
+router.post('/register/client', authenticateToken,registerClient)
+router.post('/client/assign-client', authenticateToken, authorizeRoles('Admin', 'HR', 'Manager') , assignClient)
+
+// DELETE requests
+router.delete('/client/delete-client', authenticateToken, authorizeRoles('Admin', 'HR', 'Manager'), deleteClient)
+
+// PATCH requests
+router.delete('/client/unassign-client', authenticateToken, authorizeRoles('Admin', 'HR', 'Manager'), unassignClient)
 
 export default router

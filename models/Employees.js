@@ -12,7 +12,7 @@ const employeeSchema = new Schema(
     jobTitle: { type: String },
     passwordResetToken: String,
     passwordResetExpires: String,
-    role: { type: String, enum: ["admin", "employee"], default: "employee" }, //use this for role based access
+    role: { type: String, enum: ["Admin", "Employee", "HR", "Manager"], default: "Employee" }, //use this for role based access
     salary: { type: Number },
     leads: [{ type: Schema.Types.ObjectId, ref: "Lead" }], //reference to leads
     clients: [{ type: Schema.Types.ObjectId, ref: "Client" }], //reference to clients

@@ -1,4 +1,3 @@
-import e from 'express'
 import {Client} from '../models/Clients.js'
 import {Employee} from '../models/Employees.js'
 
@@ -61,4 +60,40 @@ export const assignClient = async(req,res) => {
     catch (error) {
         res.json({error: error.message})
     }
+}
+
+export const unassignClient = async(req,res) => {
+    const {clientFullname, employeeFullname} = req.body
+    try {
+        const client = await Client.findOne({fullname: clientFullname})
+        if(!client) return res.status(404).json({message: 'Client not found'})
+        const employee = await Employee.findOne({fullname: employeeFullname})
+        if(!employee) return res.status(404).json({message: 'Employee not found'})
+
+        client.assignedTo = null;
+        await client.save()
+        
+        const clientId = client._id;
+        
+        // remove client from employee's clients array
+        employee.clients = employee.clients.filter(clientObjId => !clientObjId.equals(clientId));
+        
+        await employee.save(); 
+        res.status(200).json(`Client ${clientFullname} has been unassigned from ${employeeFullname} `)
+    
+}catch (error) {
+    res.json({error: error.message})
+}
+}
+
+export const deleteClient = async(req,res) => {
+    const {Fullname} = req.body
+    try {
+        const client = await Client.findOneAndDelete({fullname: Fullname})
+        if(!client) return res.status(404).json({message: 'Client not found'})
+        res.status(200).json(`Client ${Fullname} has been deleted`)
+
+}catch (error) {
+    res.json({error: error.message})
+}
 }
