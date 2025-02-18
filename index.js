@@ -3,7 +3,6 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
 import { connectDB } from "./config/db.js";
-import router from "./routes/EmployeeRouter.js";
 import { router as leadRoute } from "./routes/LeadRouter.js";
 import employeeRouter from "./routes/EmployeeRouter.js";
 import leadRoute from "./routes/LeadRouter.js";
