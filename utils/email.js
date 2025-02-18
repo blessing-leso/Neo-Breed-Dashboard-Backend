@@ -37,4 +37,11 @@ export class Email {
   async sendWelcome() {
     await this.send("welcome", "welcome to neo breed family");
   }
+
+  async sendPasswordReset() {
+    await this.send(
+      "passwordReset",
+      "Your password reset token (valid for 10 min)"
+    );
+  }
 }
