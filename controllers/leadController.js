@@ -1,8 +1,15 @@
-import { getOne } from "./handleFactory";
-import Lead from "../models/leadModel";
+import {
+  createOne,
+  getOne,
+  getAll,
+  updateOne,
+  deleteOne,
+} from "../controllers/handleFactory.js";
 
-const createLead = getOne(Lead);
-const getLead = getOne(Lead);
-const getAllLeads = getAll(Lead);
-const updateLead = updateOne(Lead);
-const deleteLead = deleteOne(Lead);
+import { Lead } from "../models/Leads.js";
+
+export const createLead = createOne(Lead);
+export const getLead = getOne(Lead);
+export const getAllLeads = getAll(Lead);
+export const updateLead = updateOne(Lead);
+export const deleteLead = deleteOne(Lead);
