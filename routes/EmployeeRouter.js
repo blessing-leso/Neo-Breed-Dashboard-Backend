@@ -17,11 +17,12 @@ import {
   logout
   } from "../controllers/authController.js";
 
+  
 router.post("/register", registerEmployee);
 router.get("/auth/login", login);
 router.post("/forgotpassword", forgotPassword);
 
-router.get('/auth/employees', authenticateToken, getAllEmployees)
+router.get('/auth/employees', authenticateToken,authorizeRoles('Admin', 'HR', 'Manager'), getAllEmployees)
 router.get('/auth/employees-details/', authenticateToken, getEmployeeWithDetails)
 router.get('/auth/logout', logout)
 
