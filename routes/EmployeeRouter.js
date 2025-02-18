@@ -18,18 +18,23 @@ import {
   } from "../controllers/authController.js";
 
   
-router.post("/register", registerEmployee);
+// GET requests 
 router.get("/auth/login", login);
-router.post("/forgotpassword", forgotPassword);
-
 router.get('/auth/employees', authenticateToken,authorizeRoles('Admin', 'HR', 'Manager'), getAllEmployees)
 router.get('/auth/employees-details/', authenticateToken, getEmployeeWithDetails)
 router.get('/auth/logout', logout)
+router.get("getMe", authenticateToken, getMe);
+  
+// POST requests  
+router.post("/register", registerEmployee);
+router.post("/forgotpassword", forgotPassword);
 
+// PATCH requests
 router.patch("/updateEmployee/:id", authenticateToken, updateEmployee);
 router.patch("/resetPassword/:token", resetPassword);
+
+// DELETE requests
 router.delete("/deleteEmployee/:id", authenticateToken, deleteEmployee);
-router.get("getMe", authenticateToken, getMe);
 
 export default router;
 
