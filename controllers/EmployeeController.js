@@ -1,7 +1,7 @@
 import { Employee } from "../models/Employees.js";
 import bcrypt from "bcrypt";
 import AppError from "../utils/AppError.js";
-// import sendEmail from "../utils/email.js";
+import sendEmail from "../utils/email.js";
 import { CatchAsync } from "../utils/CatchAsync.js";
 import crypto from "crypto";
 
