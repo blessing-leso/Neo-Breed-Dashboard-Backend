@@ -11,4 +11,4 @@ const CompanySchema = new Schema({
   Lead: [],
 });
 
-export const Company = model(Company, "CompanySchema");
+export const Company = model("Company", CompanySchema);
