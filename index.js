@@ -14,7 +14,7 @@ const server = express();
 server.use(cors());
 server.use(json());
 server.use(cookieParser());
-server.use("/api", leadRoute);
+
 server.use("/api", employeeRouter);
 server.use("/api", clientRouter);
 server.use("/api", companyRouter);

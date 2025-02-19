@@ -1,19 +1,18 @@
 import { Router } from "express";
-import { authenticateToken } from "../controllers/authController";
+const router = Router();
+import { authenticateToken } from "../controllers/authController.js";
 import {
   createCompany,
+  deleteCompany,
   getCompanies,
   getOneCompany,
   updateCompany,
-} from "../controllers/companyController";
-import { deleteClient } from "../controllers/clientController";
-
-const router = Router();
+} from "../controllers/companyController.js";
 
 router.post("/createCompany", authenticateToken, createCompany);
 router.get("/getCompanies", authenticateToken, getCompanies);
-router.patch("/updateCompany", authenticateToken, updateCompany);
-router.get("/getSingleCompany", authenticateToken, getOneCompany);
-router.delete("/deleteCompany", authenticateToken, deleteClient);
+router.patch("/updateCompany/:id", authenticateToken, updateCompany);
+router.get("/getSingleCompany/:id", authenticateToken, getOneCompany);
+router.delete("/deleteCompany/:id", authenticateToken, deleteCompany);
 
 export { router };
