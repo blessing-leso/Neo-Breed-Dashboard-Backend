@@ -1,5 +1,6 @@
 import {Client} from '../models/Clients.js'
 import {Employee} from '../models/Employees.js'
+import sendEmail from "../utils/email.js";
 
 export const registerClient = async(req,res) => { 
     const {Fullname, Email, Phone, Company, ServiceOffered} = req.body
@@ -55,6 +56,16 @@ export const assignClient = async(req,res) => {
         employee.clients.push(client._id)
         await client.save()
         await employee.save()
+
+        const message = `You have been assigned a new client ${clientFullname}. 
+                        Please login to your account to view the client details.`;
+                        
+        await sendEmail({
+            email: employee.email,
+            subject: "Your password reset token (valid for 10 min)",
+            message,
+          });
+
         res.status(200).json(`Client ${clientFullname} has been assigned to ${employeeFullname} `)
 }
     catch (error) {
