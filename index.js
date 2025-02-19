@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import "dotenv/config";
 import { connectDB } from "./config/db.js";
 import { router as leadRoute } from "./routes/LeadRouter.js";
+import { router as companyRouter } from "./routes/companyRoutes.js";
 import employeeRouter from "./routes/EmployeeRouter.js";
 
 import clientRouter from "./routes/Clientsrouter.js";
@@ -16,6 +17,7 @@ server.use(cookieParser());
 server.use("/api", leadRoute);
 server.use("/api", employeeRouter);
 server.use("/api", clientRouter);
+server.use("/api", companyRouter);
 //connect to database
 connectDB();
 
