@@ -58,11 +58,12 @@ export const assignClient = async(req,res) => {
         await employee.save()
 
         const message = `You have been assigned a new client ${clientFullname}. 
-                        Please login to your account to view the client details.`;
+                        Please login to your account to view the client details.
+                        The client requires ${client.serviceOffered} services.`;
                         
         await sendEmail({
             email: employee.email,
-            subject: "Your password reset token (valid for 10 min)",
+            subject: "NEW CLIENT ALERT",
             message,
           });
 
