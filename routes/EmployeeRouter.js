@@ -43,6 +43,5 @@ router.patch("/resetPassword/:token", resetPassword);
 
 // DELETE requests
 router.delete("/deleteEmployee/:id", authenticateToken, deleteEmployee);
-router.get("/getMe", authenticateToken, getMe);
 
 export default router;

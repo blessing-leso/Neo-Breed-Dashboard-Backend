@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import htmlText from "html-text";
+import "dotenv/config";
 
 export class Email {
   constructor(user, url) {
