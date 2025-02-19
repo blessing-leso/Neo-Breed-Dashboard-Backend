@@ -1,28 +1,60 @@
 import nodemailer from "nodemailer";
-import 'dotenv/config';
+import htmlText from "html-text";
+import "dotenv/config";
 
-const sendEmail = async (options) => {
-  //(1) create Transporter
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
+export class Email {
+  constructor(user, url) {
+    this.to = user.email;
+    this.firstName = user.fullname;
+    this.url = url;
+    this.from = `Fhatuwani Mulaudzi <${process.env.EMAIL_FROM}`;
+  }
 
-  //(2) Define the email Options
-  const mailOptions = {
-    from: "Fhatuwani Mulaudzi <mulaudzifhatuwanib20@gmail.com",
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-  };
+  newTransport() {
+    if (process.env.NODE_ENV === "production") {
+      //   return nodemailer.createTransport({
+      //     host: process.env.MAILGUN_HOST,
+      //     port: process.env.MAILGUN_PORT,
+      //     auth: {
+      //       user: process.env.MAILGUN_USERNAME,
+      //       pass: process.env.MAILGUN_PASSWORD,
+      //     },
+      //   });
 
-  //Actually send the email
+      return 1;
+    }
 
-  await transporter.sendMail(mailOptions);
-};
+    return (nodemailer.transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    }));
+  }
 
-export default sendEmail;
+  async send(template, subject) {
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject,
+      text: htmlText(subject),
+    };
+    await this.newTransport().sendMail(mailOptions);
+  }
+
+  async sendWelcome() {
+    await this.send(
+      "welcome",
+      `Hi ${this.firstName} welcome to neo breed family`
+    );
+  }
+
+  async sendPasswordReset() {
+    await this.send(
+      "passwordReset",
+      "Your password reset token (valid for 10 min)"
+    );
+  }
+}
