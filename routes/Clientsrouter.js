@@ -15,6 +15,6 @@ router.post('/client/assign-client', authenticateToken, authorizeRoles('Admin', 
 router.delete('/client/delete-client', authenticateToken, authorizeRoles('Admin', 'HR', 'Manager'), deleteClient)
 
 // PATCH requests
-router.delete('/client/unassign-client', authenticateToken, authorizeRoles('Admin', 'HR', 'Manager'), unassignClient)
+router.patch('/client/unassign-client', authenticateToken, authorizeRoles('Admin', 'HR', 'Manager'), unassignClient)
 
 export default router
