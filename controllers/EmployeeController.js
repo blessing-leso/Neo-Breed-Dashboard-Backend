@@ -6,13 +6,14 @@ import { CatchAsync } from "../utils/CatchAsync.js";
 import crypto from "crypto";
 
 export const registerEmployee = async(req,res) => {
-    const {Fullname, Email, Password, Phone, Address, JobTitle} = req.body
+    const {Fullname, Email, Password, Phone, Address, JobTitle, Role} = req.body
     
    const newEmployee = new Employee({
        fullname:  Fullname,
        email: Email,
        password: await bcrypt.hash(Password, 10),
        phone: Phone, 
+       role: Role,
        address: Address, 
        jobTitle: JobTitle,
        leads: [],
