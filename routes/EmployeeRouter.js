@@ -17,15 +17,14 @@ import {
   logout,
 } from "../controllers/authController.js";
 
-  
-// GET requests 
+// GET requests
 router.get("/auth/login", login);
-router.get('/auth/employees', authenticateToken,authorizeRoles('Admin', 'HR', 'Manager'), getAllEmployees)
-router.get('/auth/employees-details/', authenticateToken, getEmployeeWithDetails)
-router.get('/auth/logout', logout)
+router.get("/auth/employees", authenticateToken, authorizeRoles("Admin", "HR", "Manager"),getAllEmployees);
+router.get("/auth/employees-details/",authenticateToken, getEmployeeWithDetails);
+router.get("/auth/logout", logout);
 router.get("getMe", authenticateToken, getMe);
-  
-// POST requests  
+
+// POST requests
 router.post("/register", registerEmployee);
 router.post("/forgotpassword", forgotPassword);
 
