@@ -4,7 +4,7 @@ import {Employee} from '../models/Employees.js'
 import 'dotenv/config';
 
 export const registerClient = async(req,res) => { 
-    const {Fullname, Email, Phone, Company, ServiceOffered} = req.body
+    const {Fullname, Email, Phone, Company, ServiceOffered, Charged} = req.body
 
     try {
         const newClient = new Client({
@@ -12,7 +12,8 @@ export const registerClient = async(req,res) => {
             email: Email,
             phone: Phone,
             company: Company,
-            serviceOffered: ServiceOffered
+            serviceOffered: ServiceOffered,
+            charged: Charged
         })
         await newClient.save()
         res.status(201).json(newClient)
