@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 
 export const login = async (req, res) => {
-  console.log(`login route`);
   const { Email, Password } = req.body;
 
   try {
@@ -44,9 +43,9 @@ export const authenticateToken = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const validToken = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await Employee.findById(decoded.id).select("-password");
+    const user = await Employee.findById(validToken.id).select("-password");
 
     if (!user) {
       return res.status(401).json({ message: "User no longer exists." });
@@ -80,9 +79,8 @@ export const authenticateToken = async (req, res, next) => {
         });
 
         // Fetch user again using refresh token
-        const user = await Employee.findById(userRefreshToken.id).select(
-          "-password"
-        );
+        const user = await Employee.findById(userRefreshToken.id).select("-password");
+
         if (!user) {
           return res.status(401).json({ message: "User no longer exists." });
         }
@@ -101,6 +99,8 @@ export const authenticateToken = async (req, res, next) => {
     }
   }
 };
+
+
 export const logout = (req, res) => {
   res.clearCookie("accessToken", {
     httpOnly: true,

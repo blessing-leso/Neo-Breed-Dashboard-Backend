@@ -9,6 +9,7 @@ const employeeSchema = new Schema(
     password: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true },
+    company: { type: String },
     jobTitle: { type: String },
     passwordResetToken: String,
     passwordResetExpires: String,
