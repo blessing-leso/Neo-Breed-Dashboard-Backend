@@ -15,18 +15,33 @@ const CompanySchema = new Schema({
       ref: "Employee",
     },
   ],
-  client: [
+  clients: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Client",
     },
   ],
-  Lead: [
+  leads: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Lead",
     },
   ],
+});
+
+CompanySchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "employees",
+    select: "-password",
+  })
+    .populate({
+      path: "clients",
+    })
+    .populate({
+      path: "leads",
+    });
+
+  next();
 });
 
 export const Company = model("Company", CompanySchema);
