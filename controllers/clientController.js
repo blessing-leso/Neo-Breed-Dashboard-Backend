@@ -35,9 +35,8 @@ export const getClients = async(req,res) => {
  export const getClient = async(req,res) => {
     const {Fullname} = req.body
     try {
-        const client = await Client.findOne({fullname: Fullname})
-        .populate('assignedTo', 'fullname email -_id')
-        .exec()
+        const client = await Client.findOne({fullname: Fullname}).populate('assignedTo', 'fullname email -_id')
+        
         if(!client) return res.status(404).json({message: 'Client not found'})
         res.status(200).json(client)
 
