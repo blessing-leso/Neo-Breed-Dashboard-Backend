@@ -1,6 +1,7 @@
 import {Client} from '../models/Clients.js'
 import {Employee} from '../models/Employees.js'
 import sendEmail from "../utils/email.js";
+import 'dotenv/config';
 
 export const registerClient = async(req,res) => { 
     const {Fullname, Email, Phone, Company, ServiceOffered} = req.body
@@ -57,15 +58,9 @@ export const assignClient = async(req,res) => {
         await client.save()
         await employee.save()
 
-        const message = `You have been assigned a new client ${clientFullname}. 
-                        Please login to your account to view the client details.
-                        The client requires ${client.serviceOffered} services.`;
+        const message = `You have been assigned a new client ${clientFullname}. Please login to your account to view the client details. The client requires ${client.serviceOffered} services.`;
                         
-        await sendEmail({
-            email: employee.email,
-            subject: "NEW CLIENT ALERT",
-            message,
-          });
+        await sendEmail(process.env.MY_REAL,"NEW CLIENT ALERT", message);
 
         res.status(200).json(`Client ${clientFullname} has been assigned to ${employeeFullname} `)
 }

@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import 'dotenv/config';
 
-const sendEmail = async (options) => {
+const sendEmail = async (email, subject, message) => {
   //(1) create Transporter
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
@@ -14,14 +14,13 @@ const sendEmail = async (options) => {
 
   //(2) Define the email Options
   const mailOptions = {
-    from: "Fhatuwani Mulaudzi <mulaudzifhatuwanib20@gmail.com",
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
+    from: `Tlhogi <${process.env.MY_EMAIL}>`,
+    to: email,
+    subject: subject,
+    text: message,
   };
 
   //Actually send the email
-
   await transporter.sendMail(mailOptions);
 };
 
