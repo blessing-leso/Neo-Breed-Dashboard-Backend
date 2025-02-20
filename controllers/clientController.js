@@ -51,6 +51,20 @@ export const updateClientStatus = async(req,res) => {
 }
 }
 
+export const addAmountPaid = async(req,res) => {
+    const {Fullname, Amount} = req.body
+    try {
+        const client = await Client.findOne({fullname: Fullname})
+        if(!client) return res.status(404).json({message: 'Client not found'})
+        client.amountPaid.push({amount: Amount})
+        await client.save()
+        res.status(200).json(`Client ${Fullname} has paid an amount of R${Amount}`)
+} catch (error) {
+    res.json({error: error.message})
+}
+}
+
+
 export const getClients = async(req,res) => {
     try {
         const clients = await Client.find()
