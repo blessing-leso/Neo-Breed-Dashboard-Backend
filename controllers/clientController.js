@@ -1,6 +1,6 @@
 import {Client} from '../models/Clients.js'
 import {Employee} from '../models/Employees.js'
-import sendEmail from "../utils/email.js";
+//import sendEmail from "../utils/email.js";
 import 'dotenv/config';
 
 export const registerClient = async(req,res) => { 
