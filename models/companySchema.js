@@ -6,9 +6,27 @@ const CompanySchema = new Schema({
     type: String,
     required: true,
   },
-  employees: [],
-  client: [],
-  Lead: [],
+  Revenue: {
+    type: Number,
+  },
+  employees: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Employee",
+    },
+  ],
+  client: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Client",
+    },
+  ],
+  Lead: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Lead",
+    },
+  ],
 });
 
 export const Company = model("Company", CompanySchema);
