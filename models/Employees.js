@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
+import { type } from "os";
 const { Schema, model } = mongoose;
 
 const employeeSchema = new Schema(
   {
-    fullname: { type: String, required: true, unique: true},
+    fullname: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     phone: { type: String, required: true },
@@ -12,10 +13,19 @@ const employeeSchema = new Schema(
     jobTitle: { type: String },
     passwordResetToken: String,
     passwordResetExpires: String,
-    role: { type: String, enum: ["Admin", "Employee", "HR", "Manager"], default: "Employee" }, //use this for role based access
+    role: {
+      type: String,
+      enum: ["Admin", "Employee", "HR", "Manager"],
+      default: "Employee",
+    }, //use this for role based access
     salary: { type: Number },
     leads: [{ type: Schema.Types.ObjectId, ref: "Lead" }], //reference to leads
     clients: [{ type: Schema.Types.ObjectId, ref: "Client" }], //reference to clients
+    company: {
+      type: Schema.Types.ObjectId,
+      ref: "Company",
+      required: [true, "Employee must belong to company"],
+    },
   },
   { timestamps: true }
 );
@@ -31,6 +41,6 @@ employeeSchema.methods.createPasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
-}
+};
 
-export const Employee = model("Employee", employeeSchema)
+export const Employee = model("Employee", employeeSchema);
