@@ -38,6 +38,19 @@ export const updateClientDetails = async(req,res) => {
 }
 }
 
+export const updateClientStatus = async(req,res) => {
+    const {Fullname, Status} = req.body
+    try {
+        const client = await Client.findOne({fullname: Fullname})
+        if(!client) return res.status(404).json({message: 'Client not found'})
+        client.status = Status
+        await client.save()
+        res.status(200).json(`Client ${Fullname} status has been updated to ${Status}`)
+} catch (error) {
+    res.json({error: error.message})
+}
+}
+
 export const getClients = async(req,res) => {
     try {
         const clients = await Client.find()
