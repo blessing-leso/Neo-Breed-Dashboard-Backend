@@ -28,6 +28,7 @@ export const updateClientDetails = async(req,res) => {
     try {
         const client = await Client.findOne({fullname: Fullname})
         if(!client) return res.status(404).json({message: 'Client not found'})
+        client.fullname = Fullname    
         client.email = Email
         client.phone = Phone    
         client.company = Company
@@ -63,6 +64,8 @@ export const addAmountPaid = async(req,res) => {
     res.json({error: error.message})
 }
 }
+
+
 
 
 export const getClients = async(req,res) => {
