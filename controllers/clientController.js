@@ -23,6 +23,21 @@ export const registerClient = async(req,res) => {
     }
 }
 
+export const updateClientDetails = async(req,res) => {
+    const {Fullname, Email, Phone, Company, ServiceOffered, Charged} = req.body
+    try {
+        const client = await Client.findOne({fullname: Fullname})
+        if(!client) return res.status(404).json({message: 'Client not found'})
+        client.email = Email
+        client.phone = Phone    
+        client.company = Company
+        client.serviceOffered = ServiceOffered
+        client.charged = Charged
+}catch (error) {
+    res.json({error: error.message})
+}
+}
+
 export const getClients = async(req,res) => {
     try {
         const clients = await Client.find()
