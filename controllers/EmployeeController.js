@@ -1,6 +1,8 @@
 import { Employee } from "../models/Employees.js";
 import bcrypt from "bcrypt";
 import AppError from "../utils/AppError.js";
+import sendEmail from "../utils/email.js";
+
 import { Email as sendEmail } from "../utils/email.js";
 import { CatchAsync } from "../utils/CatchAsync.js";
 import crypto from "crypto";
@@ -34,7 +36,7 @@ export const registerEmployee = async (req, res) => {
 
 export const getAllEmployees = async (req, res) => {
   try {
-    const employees = await Employee.find().populate();
+    const employees = await Employee.find().populate().select("-password");
     res.status(200).json(employees);
   } catch (error) {
     res.json({ error: error.message });
