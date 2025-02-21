@@ -1,5 +1,5 @@
 import { Router } from "express";
-const router = Router();
+const router = Router({ mergeParams: true });
 import {
   deleteEmployee,
   getMe,
@@ -9,6 +9,7 @@ import {
   getAllEmployees,
   resetPassword,
   getEmployeeWithDetails,
+  setCompanyId,
 } from "../controllers/EmployeeController.js";
 import {
   authenticateToken,
@@ -18,7 +19,7 @@ import {
 } from "../controllers/authController.js";
 
 // GET requests
-router.get("/auth/login", login);
+router.get("/login", login);
 router.get(
   "/auth/employees",
   authenticateToken,
@@ -34,14 +35,14 @@ router.get("/auth/logout", logout);
 router.get("getMe", authenticateToken, getMe);
 
 // POST requests
-router.post("/register", registerEmployee);
-router.post("/forgotpassword", forgotPassword);
+router.post("/", setCompanyId, registerEmployee);
+router.post("/", forgotPassword);
 
 // PATCH requests
-router.patch("/updateEmployee/:id", authenticateToken, updateEmployee);
-router.patch("/resetPassword/:token", resetPassword);
+router.patch("/:id", authenticateToken, updateEmployee);
+router.patch("/:token", resetPassword);
 
 // DELETE requests
-router.delete("/deleteEmployee/:id", authenticateToken, deleteEmployee);
+router.delete("/:id", authenticateToken, deleteEmployee);
 
-export default router;
+export { router };
