@@ -5,6 +5,11 @@ import { Email as sendEmail } from "../utils/email.js";
 import { CatchAsync } from "../utils/CatchAsync.js";
 import crypto from "crypto";
 
+export const setCompanyId = (req, res, next) => {
+  if (!req.body.company) req.body.company = req.params.setCompanyId;
+  next();
+};
+
 export const registerEmployee = async (req, res) => {
   const { Fullname, Email, Password, Phone, Address, JobTitle } = req.body;
 
