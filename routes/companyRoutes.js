@@ -8,11 +8,15 @@ import {
   getOneCompany,
   updateCompany,
 } from "../controllers/companyController.js";
+import { router as EmployeeRouter } from "./EmployeeRouter.js";
 
+router.use("/:companyId/employee", EmployeeRouter);
 router.post("/createCompany", authenticateToken, createCompany);
-router.get("/getCompanies", authenticateToken, getCompanies);
-router.patch("/updateCompany/:id", authenticateToken, updateCompany);
-router.get("/getSingleCompany/:id", authenticateToken, getOneCompany);
-router.delete("/deleteCompany/:id", authenticateToken, deleteCompany);
+router.get("/", authenticateToken, getCompanies);
+router
+  .route("/:companyId")
+  .patch(authenticateToken, updateCompany)
+  .get(authenticateToken, getOneCompany)
+  .delete(authenticateToken, deleteCompany);
 
 export { router };
