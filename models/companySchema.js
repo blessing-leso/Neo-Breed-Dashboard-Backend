@@ -6,9 +6,42 @@ const CompanySchema = new Schema({
     type: String,
     required: true,
   },
-  employees: [],
-  client: [],
-  Lead: [],
+  Revenue: {
+    type: Number,
+  },
+  employees: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Employee",
+    },
+  ],
+  clients: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Client",
+    },
+  ],
+  leads: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Lead",
+    },
+  ],
+});
+
+CompanySchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "employees",
+    select: "-password",
+  })
+    .populate({
+      path: "clients",
+    })
+    .populate({
+      path: "leads",
+    });
+
+  next();
 });
 
 export const Company = model("Company", CompanySchema);
