@@ -1,33 +1,36 @@
 import mongoose from "mongoose";
 const { model, Schema } = mongoose;
 
-const CompanySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const CompanySchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    Revenue: {
+      type: Number,
+    },
+    employees: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Employee",
+      },
+    ],
+    clients: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Client",
+      },
+    ],
+    leads: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Lead",
+      },
+    ],
   },
-  Revenue: {
-    type: Number,
-  },
-  employees: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Employee",
-    },
-  ],
-  clients: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Client",
-    },
-  ],
-  leads: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Lead",
-    },
-  ],
-});
+  { timestamps: true }
+);
 
 CompanySchema.pre(/^find/, function (next) {
   this.populate({
