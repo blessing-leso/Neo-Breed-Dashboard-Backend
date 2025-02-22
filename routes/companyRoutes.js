@@ -10,13 +10,13 @@ import {
 } from "../controllers/companyController.js";
 import { router as EmployeeRouter } from "./EmployeeRouter.js";
 
-router.use("/:companyId/employee", EmployeeRouter);
+router.use("/:id/employees", EmployeeRouter);
 router.post("/createCompany", authenticateToken, createCompany);
 router.get("/", authenticateToken, getCompanies);
+router.get("/getSingleCompany/:id", authenticateToken, getOneCompany);
 router
   .route("/:companyId")
   .patch(authenticateToken, updateCompany)
-  .get(authenticateToken, getOneCompany)
   .delete(authenticateToken, deleteCompany);
 
 export { router };
