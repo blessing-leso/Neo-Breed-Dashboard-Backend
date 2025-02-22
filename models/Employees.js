@@ -20,16 +20,22 @@ const employeeSchema = new Schema(
       default: "Employee",
     }, //use this for role based access
     salary: { type: Number },
+    company: { type: Schema.Types.ObjectId, ref: "Company" },
     leads: [{ type: Schema.Types.ObjectId, ref: "Lead" }], //reference to leads
     clients: [{ type: Schema.Types.ObjectId, ref: "Client" }], //reference to clients
-    company: {
-      type: Schema.Types.ObjectId,
-      ref: "Company",
-      required: [true, "Employee must belong to company"],
-    },
   },
   { timestamps: true }
 );
+
+employeeSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "leads",
+  }).populate({
+    path: "clients",
+  });
+
+  next();
+});
 
 employeeSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex");
