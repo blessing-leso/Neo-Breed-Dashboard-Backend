@@ -29,7 +29,7 @@ export const registerEmployee = async (req, res) => {
 
 export const getAllEmployees = async (req, res) => {
   try {
-    const employees = await Employee.find().populate();
+    const employees = await Employee.find().select("-password");
     res.status(200).json(employees);
   } catch (error) {
     res.json({ error: error.message });
