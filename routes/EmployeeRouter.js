@@ -10,6 +10,7 @@ import {
   resetPassword,
   getEmployeeWithDetails,
   setCompanyId,
+  getEmployee,
 } from "../controllers/EmployeeController.js";
 import {
   authenticateToken,
@@ -26,16 +27,12 @@ router.get(
   authorizeRoles("Admin", "HR", "Manager"),
   getAllEmployees
 );
-router.get(
-  "/auth/employees-details/",
-  authenticateToken,
-  getEmployeeWithDetails
-);
+router.get("/auth/employees-details/:id", authenticateToken, getEmployee);
 router.get("/auth/logout", logout);
 router.get("getMe", authenticateToken, getMe);
 
 // POST requests
-router.post("/", setCompanyId, registerEmployee);
+router.post("/", authenticateToken, setCompanyId, registerEmployee);
 router.post("/", forgotPassword);
 
 // PATCH requests
