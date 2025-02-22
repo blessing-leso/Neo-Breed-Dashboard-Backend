@@ -1,8 +1,6 @@
 import { Employee } from "../models/Employees.js";
 import bcrypt from "bcrypt";
 import AppError from "../utils/AppError.js";
-import sendEmail from "../utils/email.js";
-
 import { Email as sendEmail } from "../utils/email.js";
 import { CatchAsync } from "../utils/CatchAsync.js";
 import crypto from "crypto";
@@ -13,7 +11,8 @@ export const setCompanyId = (req, res, next) => {
 };
 
 export const registerEmployee = async (req, res) => {
-  const { Fullname, Email, Password, Phone, Address, JobTitle } = req.body;
+  const { Fullname, Email, Password, Phone, Address, JobTitle, Role } =
+    req.body;
 
   const newEmployee = new Employee({
     fullname: Fullname,
@@ -24,6 +23,7 @@ export const registerEmployee = async (req, res) => {
     jobTitle: JobTitle,
     leads: [],
     clients: [],
+    role: Role,
   });
 
   try {
@@ -187,10 +187,10 @@ export const getMe = (req, res, next) => {
 };
 
 // Function to get Employees along with clients and leads they are working with
-export const getEmployeeWithDetails = async (req, res) => {
-  const employee = await Employee.findOne({ fullname: req.body.Fullname })
-    .populate("clients") // Get client details
-    .populate("leads") // Get lead details
-    .select("-password");
-  res.json(employee);
-};
+// export const getEmployeeWithDetails = async (req, res) => {
+//   const employee = await Employee.findOne({ fullname: req.body.Fullname })
+//     .populate("clients") // Get client details
+//     .populate("leads") // Get lead details
+//     .select("-password");
+//   res.json(employee);
+// };
