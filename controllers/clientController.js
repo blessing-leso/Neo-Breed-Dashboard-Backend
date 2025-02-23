@@ -4,14 +4,14 @@ import { Email as sendEmail } from "../utils/email.js";
 import "dotenv/config";
 
 export const registerClient = async (req, res) => {
-  const { Fullname, Email, Phone, Company, ServiceOffered } = req.body;
+  const { Fullname, Email, Phone, company, ServiceOffered } = req.body;
 
   try {
     const newClient = new Client({
       fullname: Fullname,
       email: Email,
       phone: Phone,
-      company: Company,
+      company: [company],
       serviceOffered: ServiceOffered,
     });
     await newClient.save();
