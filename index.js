@@ -16,7 +16,7 @@ server.use(json());
 server.use(cookieParser());
 
 server.use("/api/employees", employeeRouter);
-server.use("/api", clientRouter);
+server.use("/api/clients", clientRouter);
 server.use("/api/companies", companyRouter);
 server.use("/api", leadRoute);
 //connect to database

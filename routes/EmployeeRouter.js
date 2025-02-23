@@ -8,7 +8,6 @@ import {
   forgotPassword,
   getAllEmployees,
   resetPassword,
-  getEmployeeWithDetails,
   setCompanyId,
   getEmployee,
 } from "../controllers/EmployeeController.js";

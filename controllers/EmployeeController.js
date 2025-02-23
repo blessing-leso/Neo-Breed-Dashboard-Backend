@@ -6,7 +6,7 @@ import { CatchAsync } from "../utils/CatchAsync.js";
 import crypto from "crypto";
 
 export const setCompanyId = (req, res, next) => {
-  if (!req.body.company) req.body.company = req.params.setCompanyId;
+  if (!req.body.company) req.body.company = req.params.id;
   next();
 };
 
@@ -185,13 +185,4 @@ export const getMe = (req, res, next) => {
     status: "success",
     user: req.user,
   });
-};
-
-// Function to get Employees along with clients and leads they are working with
-export const getEmployeeWithDetails = async (req, res) => {
-  const employee = await Employee.findOne({ fullname: req.body.Fullname })
-    .populate("clients") // Get client details
-    .populate("leads") // Get lead details
-    .select("-password");
-  res.json(employee);
 };
