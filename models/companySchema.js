@@ -10,12 +10,7 @@ const CompanySchema = new Schema(
     Revenue: {
       type: Number,
     },
-    employees: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Employee",
-      },
-    ],
+
     clients: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -29,8 +24,18 @@ const CompanySchema = new Schema(
       },
     ],
   },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
   { timestamps: true }
 );
+
+CompanySchema.virtual("employees", {
+  ref: "Employee",
+  foreignField: "company",
+  localField: "_id",
+});
 
 CompanySchema.pre(/^find/, function (next) {
   this.populate({
