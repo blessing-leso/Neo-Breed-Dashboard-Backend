@@ -11,7 +11,7 @@ export const setCompanyId = (req, res, next) => {
 };
 
 export const registerEmployee = async (req, res) => {
-  const { Fullname, Email, Password, Phone, Address, JobTitle, Role } =
+  const { Fullname, Email, Password, Phone, Address, JobTitle, Role, company } =
     req.body;
 
   const newEmployee = new Employee({
@@ -23,6 +23,7 @@ export const registerEmployee = async (req, res) => {
     jobTitle: JobTitle,
     leads: [],
     clients: [],
+    company: [company],
     role: Role,
   });
 
@@ -187,10 +188,10 @@ export const getMe = (req, res, next) => {
 };
 
 // Function to get Employees along with clients and leads they are working with
-// export const getEmployeeWithDetails = async (req, res) => {
-//   const employee = await Employee.findOne({ fullname: req.body.Fullname })
-//     .populate("clients") // Get client details
-//     .populate("leads") // Get lead details
-//     .select("-password");
-//   res.json(employee);
-// };
+export const getEmployeeWithDetails = async (req, res) => {
+  const employee = await Employee.findOne({ fullname: req.body.Fullname })
+    .populate("clients") // Get client details
+    .populate("leads") // Get lead details
+    .select("-password");
+  res.json(employee);
+};
