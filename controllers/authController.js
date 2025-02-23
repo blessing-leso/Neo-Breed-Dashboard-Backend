@@ -52,6 +52,7 @@ export const authenticateToken = async (req, res, next) => {
     }
 
     req.user = user;
+
     return next();
   } catch (error) {
     res.clearCookie("accessToken");
@@ -79,7 +80,9 @@ export const authenticateToken = async (req, res, next) => {
         });
 
         // Fetch user again using refresh token
-        const user = await Employee.findById(userRefreshToken.id).select("-password");
+        const user = await Employee.findById(userRefreshToken.id).select(
+          "-password"
+        );
 
         if (!user) {
           return res.status(401).json({ message: "User no longer exists." });
@@ -99,7 +102,6 @@ export const authenticateToken = async (req, res, next) => {
     }
   }
 };
-
 
 export const logout = (req, res) => {
   res.clearCookie("accessToken", {

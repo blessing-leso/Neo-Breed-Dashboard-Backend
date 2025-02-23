@@ -1,32 +1,40 @@
 import mongoose from "mongoose";
 const { model, Schema } = mongoose;
 
-const CompanySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const CompanySchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    Revenue: {
+      type: Number,
+    },
+
+    clients: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Client",
+      },
+    ],
+    leads: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Lead",
+      },
+    ],
   },
-  Revenue: {
-    type: Number,
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
-  employees: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Employee",
-    },
-  ],
-  clients: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Client",
-    },
-  ],
-  leads: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Lead",
-    },
-  ],
+  { timestamps: true }
+);
+
+CompanySchema.virtual("employees", {
+  ref: "Employee",
+  foreignField: "company",
+  localField: "_id",
 });
 
 CompanySchema.pre(/^find/, function (next) {

@@ -10,6 +10,7 @@ export const createOne = (Model) =>
 export const getOne = (Model) =>
   CatchAsync(async (req, res, next) => {
     const doc = await Model.findById(req.params.id);
+
     if (!doc) return next(new AppError("No document found with that ID", 404));
     res.status(200).json({ doc });
   });
@@ -32,6 +33,7 @@ export const updateOne = (Model) =>
 export const deleteOne = (Model) =>
   CatchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
+    console.log(req.params.id);
     if (!doc) return next(new AppError("No document found with that ID", 404));
     res.status(204).json({ data: null });
   });
