@@ -6,7 +6,7 @@ import { connectDB } from "./config/db.js";
 import leadRoute from "./routes/LeadRouter.js";
 import { router as companyRouter } from "./routes/companyRoutes.js";
 import { router as employeeRouter } from "./routes/EmployeeRouter.js";
-
+import callRouter from "./routes/callRoutes.js";
 import clientRouter from "./routes/Clientsrouter.js";
 const server = express();
 
@@ -19,6 +19,7 @@ server.use("/api/employees", employeeRouter);
 server.use("/api/clients", clientRouter);
 server.use("/api/companies", companyRouter);
 server.use("/api/leads", leadRoute);
+server.use("/api/calls", callRouter);
 //connect to database
 connectDB();
 
