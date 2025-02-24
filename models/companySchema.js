@@ -10,13 +10,6 @@ const CompanySchema = new Schema(
     Revenue: {
       type: Number,
     },
-
-    leads: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Lead",
-      },
-    ],
   },
   {
     toJSON: { virtuals: true },
@@ -33,6 +26,12 @@ CompanySchema.virtual("employees", {
 
 CompanySchema.virtual("clients", {
   ref: "Client",
+  foreignField: "company",
+  localField: "_id",
+});
+
+CompanySchema.virtual("leads", {
+  ref: "Lead",
   foreignField: "company",
   localField: "_id",
 });

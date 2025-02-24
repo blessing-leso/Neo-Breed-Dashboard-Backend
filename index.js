@@ -3,7 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
 import { connectDB } from "./config/db.js";
-import { router as leadRoute } from "./routes/LeadRouter.js";
+import leadRoute from "./routes/LeadRouter.js";
 import { router as companyRouter } from "./routes/companyRoutes.js";
 import { router as employeeRouter } from "./routes/EmployeeRouter.js";
 
@@ -18,7 +18,7 @@ server.use(cookieParser());
 server.use("/api/employees", employeeRouter);
 server.use("/api/clients", clientRouter);
 server.use("/api/companies", companyRouter);
-server.use("/api", leadRoute);
+server.use("/api/leads", leadRoute);
 //connect to database
 connectDB();
 

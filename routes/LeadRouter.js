@@ -1,5 +1,5 @@
 import { Router } from "express";
-const router = Router();
+const router = Router({ mergeParams: true });
 import { authenticateToken } from "../controllers/authController.js";
 
 import {
@@ -9,10 +9,11 @@ import {
   updateLead,
   deleteLead,
 } from "../controllers/leadController.js";
+import { setCompanyId } from "../controllers/EmployeeController.js";
 router.get("/auth/leads", authenticateToken, getAllLeads);
-router.post("/register/lead", authenticateToken, createLead);
+router.post("/", authenticateToken, setCompanyId, createLead);
 router.patch("/update/lead/:id", authenticateToken, updateLead);
 router.get("/getLead/:id", authenticateToken, getLead);
 router.delete("/delete/lead/:id", authenticateToken, deleteLead);
 
-export { router };
+export default router;

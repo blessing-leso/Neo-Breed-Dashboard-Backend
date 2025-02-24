@@ -10,9 +10,11 @@ import {
 } from "../controllers/companyController.js";
 import { router as EmployeeRouter } from "./EmployeeRouter.js";
 import ClientRouter from "./Clientsrouter.js";
+import LeadRouter from "./LeadRouter.js";
 
 router.use("/:id/employees", EmployeeRouter);
 router.use("/:id/clients", ClientRouter);
+router.use("/:id/leads", LeadRouter);
 
 router.post("/createCompany", authenticateToken, createCompany);
 router.get("/", authenticateToken, getCompanies);
