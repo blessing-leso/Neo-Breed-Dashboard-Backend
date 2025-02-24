@@ -1,4 +1,4 @@
-import { Model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const callSchema = new Schema(
   {
@@ -29,4 +29,4 @@ const callSchema = new Schema(
   { timestamps: true }
 );
 
-export const Call = Model("Call", callSchema);
+export const Call = model("Call", callSchema);
