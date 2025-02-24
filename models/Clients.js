@@ -22,4 +22,10 @@ const clientSchema = new Schema(
   { timestamps: true }
 );
 
+clientSchema.virtual("calls", {
+  ref: "Call",
+  foreignField: "client",
+  localField: "_id",
+});
+
 export const Client = model("Client", clientSchema);
