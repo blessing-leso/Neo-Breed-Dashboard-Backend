@@ -37,12 +37,6 @@ employeeSchema.pre(/^find/, function (next) {
   next();
 });
 
-employeeSchema.virtual("calls", {
-  ref: "Call",
-  foreignField: "employee",
-  localField: "_id",
-});
-
 employeeSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex");
 

@@ -20,7 +20,7 @@ router.post("/createCompany", authenticateToken, createCompany);
 router.get("/", authenticateToken, getCompanies);
 router.get("/getSingleCompany/:id", authenticateToken, getOneCompany);
 router
-  .route("/:companyId")
+  .route("/:id")
   .patch(authenticateToken, updateCompany)
   .delete(authenticateToken, deleteCompany);
 

@@ -29,4 +29,15 @@ const callSchema = new Schema(
   { timestamps: true }
 );
 
+callSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "employee",
+    select: "-password",
+  });
+  this.populate({
+    path: "client",
+  });
+  next();
+});
+
 export const Call = model("Call", callSchema);
