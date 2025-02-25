@@ -25,7 +25,6 @@ const limiter = rateLimit({
 server.use(cors());
 server.use(json());
 server.use(cookieParser());
-server.use(limiter);
 server.use(helmet());
 //Data sanitization against NoSQL query injection
 server.use(ExpressMongoSanitize());
@@ -35,6 +34,7 @@ server.use("/api/clients", clientRouter);
 server.use("/api/companies", companyRouter);
 server.use("/api/leads", leadRoute);
 server.use("/api/calls", callRouter);
+server.use("/api/", limiter);
 //connect to database
 connectDB();
 
