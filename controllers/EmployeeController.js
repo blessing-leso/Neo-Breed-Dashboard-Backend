@@ -7,6 +7,7 @@ import crypto from "crypto";
 
 export const setCompanyId = (req, res, next) => {
   if (!req.body.company) req.body.company = req.params.id;
+
   next();
 };
 
