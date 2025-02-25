@@ -13,6 +13,11 @@ import {
   deleteClient,
 } from "../controllers/clientController.js";
 import { setCompanyId } from "../controllers/EmployeeController.js";
+import callRouter from "../routes/callRoutes.js";
+
+//Nesting Routes
+
+router.use("/:id/calls", callRouter);
 
 // GET requests
 router.get("/client/get-clients", authenticateToken, getClients);
